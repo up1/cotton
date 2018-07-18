@@ -173,6 +173,10 @@ func (p *Parser) parseTestSuiteFile(file string) ([]*ts.TestCase, error) {
 						tc.Expectations[row[0]] = row[1]
 					}
 				}
+				if tc != nil {
+					testcases = append(testcases, tc)
+					section = ""
+				}
 			case "H2":
 				se := elm.(*markdown.SimpleElement)
 				if m, ok := se.Capture("(?i)^(GET|POST|DELETE|PUT|PATCH|OPTIONS) (.+)$"); ok {
@@ -250,9 +254,10 @@ func (p *Parser) parseTestSuiteFile(file string) ([]*ts.TestCase, error) {
 		}
 	}
 
-	if tc != nil {
-		testcases = append(testcases, tc)
-	}
+	// if tc != nil {
+	// 	testcases = append(testcases, tc)
+	// 	section = ""
+	// }
 
 	// pretty.Println(testcases)
 
